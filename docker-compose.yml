@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  meta:
+    image: influxdb:meta
+    container_name: meta
+    environment:
+      - INFLUXDB_ENTERPRISE_LICENSE_KEY=${INFLUXDB_ENTERPRISE_LICENSE_KEY}
+      - INFLUXDB_HOSTNAME=meta
+    ports:
+  # Meta nodes communicate ovet ports 8088, 8089, and 8091
+    - "18088:8088"
+    - "18089:8089"
+    # UDP Port
+    - "18091:8091"
+
+  data:
+    image: influxdb:data
+    container_name: data
+    environment:
+      - INFLUXDB_HOSTNAME=data
+      - INFLUXDB_ENTERPRISE_LICENSE_KEY=${INFLUXDB_ENTERPRISE_LICENSE_KEY}
+    ports:
+      - "18086:8086"
+      - "18082:8082"
+    expose:
+      - "8086"
